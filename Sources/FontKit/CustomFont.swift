@@ -11,14 +11,17 @@ import SwiftUI
 /// This struct can be used to load custom fonts from an app
 /// or Swift Package.
 ///
-/// The `name` is the font name, while the `displayName` can
-/// be used as an optional display name. The `family` can be
-/// used for grouping when loading multiple font variants of
-/// a single font.
+/// The `name` is the real font name while `displayName` can
+/// be used to apply a separate display name. The `name` can
+/// be used as a the default display name, family name (with
+/// any type suffix removed), file name, etc., provided that
+/// the various names correlate.
 ///
-/// You can use the ``font(size:)`` builder to generate font
-/// values of various sizes, or use the `Font` extensions to
-/// generate SwiftUI-specific fonts.
+/// The static ``font(size:)`` builder can be used to create
+/// platform-specific fonts, while ``swiftUIFont(fixedSize:)``,
+/// ``swiftUIFont(dynamicSize:)`` and ``swiftUIFont(size:relativeTo:)``
+/// can be used to create SwiftUI-specific fonts that behave
+/// in different ways together with dynamic type.
 public struct CustomFont: Identifiable, Sendable {
 
     /// Create a custom font from a file folder.
@@ -67,16 +70,47 @@ public struct CustomFont: Identifiable, Sendable {
 
     /// The bundle in which the font file is located
     public let bundle: Bundle
+}
 
-    public func font(size: CGFloat) -> FontRepresentable {
+public extension CustomFont {
+
+    /// Resolve a platform-specific font with a certain size.
+    func font(size: CGFloat) -> FontRepresentable {
         if let font = tryResolveFont(size: size) { return font }
         fatalError("Unable to initialize font '\(name)'")
+    }
+
+    /// Create a SwiftUI `Font` with a dynamic size.
+    ///
+    /// This font adapts to the current dynamic type size.
+    func swiftUIFont(dynamicSize size: CGFloat) -> Font {
+        .dynamic(self, size: size)
+    }
+
+    /// Create a SwiftUI `Font` with a fixed size.
+    ///
+    /// This font ignores the current dynamic type size.
+    func swiftUIFont(fixedSize size: CGFloat) -> Font {
+        .fixed(self, size: size)
+    }
+
+    /// Create a SwiftUI `Font` with a fixed size.
+    ///
+    /// This font adapts to the current dynamic type size by
+    /// scaling relative to the provided text style.
+    func swiftUIFont(
+        size: CGFloat,
+        relativeTo style: Font.TextStyle
+    ) -> Font {
+        .relative(self, size: size, relativeTo: style)
     }
 }
 
 public extension Font {
 
-    /// Returns a ``CustomFont`` with a dynamic size.
+    /// Create a custom font with a dynamic size.
+    ///
+    /// This font adapts to the current dynamic type size.
     static func dynamic(
       _ font: CustomFont,
       size: CGFloat
@@ -84,7 +118,9 @@ public extension Font {
         .custom(font.name, size: size)
     }
 
-    /// Returns a ``CustomFont`` with a fixed size.
+    /// Create a custom font with a fixed size.
+    ///
+    /// This font ignores the current dynamic type size.
     static func fixed(
       _ font: CustomFont,
       size: CGFloat
@@ -92,7 +128,10 @@ public extension Font {
         .custom(font.name, fixedSize: size)
     }
 
-    /// Returns a ``CustomFont`` with a style-relative size.
+    /// Create a custom font with a style-relative size.
+    ///
+    /// This font adapts to the current dynamic type size by
+    /// scaling relative to the provided text style. 
     static func relative(
         _ font: CustomFont,
         size: CGFloat,

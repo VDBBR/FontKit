@@ -6,6 +6,14 @@ Until then, breaking changes can happen in minor versions.
 
 
 
+## 0.1.1
+
+### ✨ Features
+
+* ``CustomFont`` has new SwiftUI font builders.
+
+
+
 ## 0.1
 
 This is the first version of FontKit.
