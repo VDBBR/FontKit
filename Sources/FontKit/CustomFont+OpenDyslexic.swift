@@ -13,36 +13,44 @@ import SwiftUI
 public extension CustomFont {
 
     /// A regular OpenDyslexic font variant.
-    static let openDyslexic = CustomFont(
+    static let openDyslexic = openDyslexic(
         name: "OpenDyslexic-Regular",
-        displayName: "OpenDyslexic Regular",
-        fileExtension: "otf",
-        bundle: .module
+        displayName: "OpenDyslexic Regular"
     )
 
     /// A bold OpenDyslexic font variant.
-    static let openDyslexicBold = CustomFont(
+    static let openDyslexicBold = openDyslexic(
         name: "OpenDyslexic-Bold",
-        displayName: "OpenDyslexic Bold",
-        fileExtension: "otf",
-        bundle: .module
+        displayName: "OpenDyslexic Bold"
     )
 
     /// A bold italic OpenDyslexic font variant.
-    static let openDyslexicBoldItalic = CustomFont(
+    static let openDyslexicBoldItalic = openDyslexic(
         name: "OpenDyslexic-Bold-Italic",
-        displayName: "OpenDyslexic Bold Italic",
-        fileExtension: "otf",
-        bundle: .module
+        displayName: "OpenDyslexic Bold Italic"
     )
 
     /// An italic OpenDyslexic font variant.
-    static let openDyslexicItalic = CustomFont(
+    static let openDyslexicItalic = openDyslexic(
         name: "OpenDyslexic-Italic",
-        displayName: "OpenDyslexic Italic",
-        fileExtension: "otf",
-        bundle: .module
+        displayName: "OpenDyslexic Italic"
     )
+}
+
+private extension CustomFont {
+
+    static func openDyslexic(
+        name: String,
+        displayName: String
+    ) -> Self {
+        .init(
+            name: name,
+            displayName: displayName,
+            fileExtension: "otf",
+            bundle: .module,
+            systemFontScaleFactor: 1.1
+        )
+    }
 }
 
 public extension CustomFont {
@@ -66,12 +74,14 @@ public extension Collection where Element == CustomFont {
 
 #Preview {
 
+    let size = 15.0
+
     List {
-        Section("Open Dyslexic") {
-            ForEach(CustomFont.openDyslexicFonts) { font in
-                Text(font.displayName)
-                    .font(.fixed(font, size: 15))
-            }
+        Text("OpenDyslexic")
+            .font(.system(size: size))
+        ForEach(CustomFont.openDyslexicFonts) { font in
+            Text(font.displayName)
+                .font(.fixed(font, size: size))
         }
     }
 }

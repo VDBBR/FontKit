@@ -6,6 +6,18 @@ Until then, breaking changes can happen in minor versions.
 
 
 
+## 0.1.2
+
+### ✨ Features
+
+* ``CustomFont`` has a new system font scale factor.
+
+### 💡 Adjustments
+
+* ``CustomFont`` will use the new system font scale factor to render as big as the system font.
+
+
+
 ## 0.1.1
 
 ### ✨ Features

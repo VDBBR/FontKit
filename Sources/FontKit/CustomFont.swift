@@ -17,11 +17,16 @@ import SwiftUI
 /// any type suffix removed), file name, etc., provided that
 /// the various names correlate.
 ///
+/// The `systemFontScaleFactor` property can define a font's
+/// scale factor compared to the system font. If this factor
+/// is `1.2`, the font is 20% larger than a system font. The
+/// font builders takes this scale factor into consideration,
+/// and adjusts the requested size to the system font.
+///
 /// The static ``font(size:)`` builder can be used to create
-/// platform-specific fonts, while ``swiftUIFont(fixedSize:)``,
-/// ``swiftUIFont(dynamicSize:)`` and ``swiftUIFont(size:relativeTo:)``
-/// can be used to create SwiftUI-specific fonts that behave
-/// in different ways together with dynamic type.
+/// platform-specific fonts, while ``swiftUIFont(fixedSize:)``
+/// and the other SwiftUI-specific extensions can be used to
+/// create SwiftUI `Font` values.
 public struct CustomFont: Identifiable, Sendable {
 
     /// Create a custom font from a file folder.
@@ -32,21 +37,24 @@ public struct CustomFont: Identifiable, Sendable {
     ///   - family: The font family name, by default the first name segment.
     ///   - fileName: The font file name, by default `name`.
     ///   - fileExtension: The font file extension, by default `ttf`.
-    ///   - bundle: The bundle in which the font file is located.
+    ///   - bundle: The bundle in which the font file is located, by default `.main`.
+    ///   - systemFontScaleFactor: The approximate scale factor compared to the system font, by default `1`.
     public init(
         name: String,
         displayName: String? = nil,
         family: String? = nil,
         fileName: String? = nil,
-        fileExtension: String? = nil,
-        bundle: Bundle = .main
+        fileExtension: String = "ttf",
+        bundle: Bundle = .main,
+        systemFontScaleFactor: Double = 1.2
     ) {
         self.name = name
         self.displayName = displayName ?? name
         self.family = family ?? name.defaultFamily
         self.fileName = fileName ?? name
-        self.fileExtension = fileExtension ?? "ttf"
+        self.fileExtension = fileExtension
         self.bundle = bundle
+        self.systemFontScaleFactor = systemFontScaleFactor
         registerIfNeeded()
     }
 
@@ -70,6 +78,9 @@ public struct CustomFont: Identifiable, Sendable {
 
     /// The bundle in which the font file is located
     public let bundle: Bundle
+
+    /// The approximate scale factor compared to the system font.
+    public let systemFontScaleFactor: Double
 }
 
 public extension CustomFont {
@@ -80,28 +91,29 @@ public extension CustomFont {
         fatalError("Unable to initialize font '\(name)'")
     }
 
+    /// Transform a font size to match the system font size.
+    func systemFontSize(for size: Double) -> Double {
+        size / systemFontScaleFactor
+    }
+
     /// Create a SwiftUI `Font` with a dynamic size.
     ///
-    /// This font adapts to the current dynamic type size.
+    /// This font adapts to dynamic type.
     func swiftUIFont(dynamicSize size: CGFloat) -> Font {
         .dynamic(self, size: size)
     }
 
     /// Create a SwiftUI `Font` with a fixed size.
     ///
-    /// This font ignores the current dynamic type size.
+    /// This font ignores dynamic type.
     func swiftUIFont(fixedSize size: CGFloat) -> Font {
         .fixed(self, size: size)
     }
 
-    /// Create a SwiftUI `Font` with a fixed size.
+    /// Create a SwiftUI `Font` with a style-relative size.
     ///
-    /// This font adapts to the current dynamic type size by
-    /// scaling relative to the provided text style.
-    func swiftUIFont(
-        size: CGFloat,
-        relativeTo style: Font.TextStyle
-    ) -> Font {
+    /// This font adapts to dynamic type.
+    func swiftUIFont(size: CGFloat, relativeTo style: Font.TextStyle) -> Font {
         .relative(self, size: size, relativeTo: style)
     }
 }
@@ -110,34 +122,33 @@ public extension Font {
 
     /// Create a custom font with a dynamic size.
     ///
-    /// This font adapts to the current dynamic type size.
+    /// This font adapts to dynamic type.
     static func dynamic(
       _ font: CustomFont,
       size: CGFloat
     ) -> Font {
-        .custom(font.name, size: size)
+        .custom(font.name, size: font.systemFontSize(for: size))
     }
 
     /// Create a custom font with a fixed size.
     ///
-    /// This font ignores the current dynamic type size.
+    /// This font ignores dynamic type.
     static func fixed(
       _ font: CustomFont,
       size: CGFloat
     ) -> Font {
-        .custom(font.name, fixedSize: size)
+        .custom(font.name, fixedSize: font.systemFontSize(for: size))
     }
 
     /// Create a custom font with a style-relative size.
     ///
-    /// This font adapts to the current dynamic type size by
-    /// scaling relative to the provided text style. 
+    /// This font adapts to dynamic type.
     static func relative(
         _ font: CustomFont,
         size: CGFloat,
         relativeTo style: Font.TextStyle
     ) -> Font {
-        .custom(font.name, size: size, relativeTo: style)
+        .custom(font.name, size: font.systemFontSize(for: size), relativeTo: style)
     }
 }
 
