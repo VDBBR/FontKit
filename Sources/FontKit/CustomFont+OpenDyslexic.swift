@@ -15,7 +15,7 @@ public extension CustomFont {
     /// A regular OpenDyslexic font variant.
     static let openDyslexic = openDyslexic(
         name: "OpenDyslexic-Regular",
-        displayName: "OpenDyslexic Regular"
+        displayName: "OpenDyslexic"
     )
 
     /// A bold OpenDyslexic font variant.

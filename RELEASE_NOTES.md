@@ -6,6 +6,14 @@ Until then, breaking changes can happen in minor versions.
 
 
 
+## 0.1.4
+
+### 💡 Adjustments
+
+* OpenDyslexic Regular has an adjusted display name.
+
+
+
 ## 0.1.3
 
 ### ✨ Features
