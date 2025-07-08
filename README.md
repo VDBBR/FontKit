@@ -13,7 +13,9 @@
 
 # FontKit
 
-FontKit is a SwiftUI library that makes it easy to use custom fonts with SwiftUI, UIKit, and AppKit.
+FontKit is a Swift library that makes it easy to use custom fonts with SwiftUI, UIKit, and AppKit.
+
+![FontKit Preview](Resources/Preview.png)
 
 
 

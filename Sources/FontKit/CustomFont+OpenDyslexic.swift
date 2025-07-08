@@ -67,9 +67,11 @@ public extension Collection where Element == CustomFont {
 #Preview {
 
     List {
-        ForEach(CustomFont.openDyslexicFonts) { font in
-            Text(font.displayName)
-                .font(.fixed(font, size: 15))
+        Section("Open Dyslexic") {
+            ForEach(CustomFont.openDyslexicFonts) { font in
+                Text(font.displayName)
+                    .font(.fixed(font, size: 15))
+            }
         }
     }
 }
