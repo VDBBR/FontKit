@@ -6,6 +6,14 @@ Until then, breaking changes can happen in minor versions.
 
 
 
+## 0.1.3
+
+### ✨ Features
+
+* ``CustomFontRepresentable`` is a new protocol for type agnostic font logic.
+
+
+
 ## 0.1.2
 
 ### ✨ Features

@@ -97,6 +97,7 @@ FontKit is available under the MIT license.
 ### Fonts
 
 - ``CustomFont``
+- ``CustomFontRepresentable``
 
 
 
