@@ -37,9 +37,9 @@ You can [become a sponsor][Sponsors] to help me dedicate more time on my various
 
 ## Getting Started
 
-FontKit has a `CustomFont` struct that can be used to define how to load a custom font resource.
+FontKit has a ``CustomFont`` struct that can be used to define and load custom font resources from any bundle.
 
-For instance, this is how FontKit defines it's four OpenDyslexic fonts that are embedded in the package's own `.module` bundle:
+For instance, this is how FontKit defines the four OpenDyslexic fonts that are embedded in the `.module` bundle:
 
 ```swift
 public extension CustomFont {
@@ -78,7 +78,7 @@ public extension CustomFont {
 }
 ```
 
-You can use the SwiftUI `Font` extensions to create `CustomFont`-based fonts, or the `.font(size:)` builder to create UIKit/AppKit fonts. 
+You can use SwiftuI ``Font`` extensions to create ``CustomFont``-based fonts, or the ``.font(size:)`` builder to create fonts for UIKit and AppKit.
 
 
 
